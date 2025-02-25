@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
+import Ask from "./Ask";
 
 function Chat() {
   const [messages, setMessages] = useState("");
@@ -37,7 +38,6 @@ function Chat() {
 
   return (
     <div className="chat-container">
-      <Sidebar></Sidebar>
       <div className="chat-history">
         {chatHistory.map((chat, index) => {
           return (
@@ -54,15 +54,19 @@ function Chat() {
           );
         })}
       </div>
-
-      <form onSubmit={handleSubmit}>
+      <Ask
+        handleSubmit={handleSubmit}
+        messages={messages}
+        setMessages={setMessages}
+      ></Ask>
+      {/* <form onSubmit={handleSubmit}>
         <input
           value={messages}
           onChange={(e) => setMessages(e.target.value)}
           placeholder="Ask anything..."
         />
         <button type="submit">Send</button>
-      </form>
+      </form> */}
     </div>
   );
 }
