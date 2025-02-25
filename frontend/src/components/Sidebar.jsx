@@ -5,12 +5,12 @@ function Sidebar() {
     <aside className="w-64  h-screen shadow-md flex flex-col justify-between"
     style={{ backgroundColor: "#251952" }}>
       <div className="p-6">
-        <h1 className="text-xl font-bold mb-4">Chatbot Dashboard</h1>
+        <h1 className="text-xl text-white font-bold mb-4">Chatbot Dashboard</h1>
         <nav className="space-y-2">
           <a
             href="#"
             
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -32,7 +32,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -54,7 +54,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -76,7 +76,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -98,7 +98,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -121,7 +121,7 @@ function Sidebar() {
           <hr className="my-2 border-gray-300" />
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -143,7 +143,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -165,7 +165,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -187,7 +187,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -210,7 +210,7 @@ function Sidebar() {
           <hr className="my-2 border-gray-300" />
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -232,7 +232,7 @@ function Sidebar() {
           </a>
           <a
             href="#"
-            className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded"
+            className="flex items-center p-2 text-white hover:bg-blue-500 rounded"
           >
             <span className="mr-3">
               <svg
@@ -255,7 +255,7 @@ function Sidebar() {
         </nav>
       </div>
 
-      <div className="p-4 text-center text-gray-500">
+      <div className="p-4 text-center text-white">
         <p>
           Inspired by{" "}
           <a href="https://galichat.com" className="text-blue-500 underline">
