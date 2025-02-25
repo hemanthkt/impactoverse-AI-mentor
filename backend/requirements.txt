@@ -1,0 +1,4 @@
+express
+cors
+axios
+dotenv
