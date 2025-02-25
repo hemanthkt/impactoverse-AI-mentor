@@ -4,7 +4,7 @@ function Sidebar() {
   return (
     <aside className="w-64 bg-white h-screen shadow-md flex flex-col justify-between">
       <div className="p-6">
-        <h1 className="text-xl font-bold mb-4">Chatbot Dashboard</h1>
+        <h1 className="text-lg font-bold mb-4">Impactoverse AI mentor</h1>
         <nav className="space-y-2">
           <a
             href="#"
