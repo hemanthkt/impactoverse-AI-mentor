@@ -1,14 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Ask from "./Ask";
 
 function Chat() {
+  const [sidebarWidth, setSidebarWidth] = useState(300); // Initial width of sidebar
+  const [isDragging, setIsDragging] = useState(false);
   const [messages, setMessages] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
 
-  const handleSubmit = async (e) => {
-    console.log(messages);
+  const handleMouseDown = () => {
+    setIsDragging(true);
+  };
 
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (isDragging) {
+        const newWidth = Math.max(200, Math.min(e.clientX, 500)); // Constrain width between 200px and 500px
+        setSidebarWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    };
+
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!messages.trim()) return;
@@ -28,8 +57,6 @@ function Chat() {
         { type: "user", text: messages },
         { type: "ai", text: data.text },
       ]);
-      console.log(chatHistory);
-
       setMessages("");
     } catch (error) {
       console.error(error);
@@ -37,14 +64,27 @@ function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen w-full bg-transparent">
       {/* Sidebar */}
-      <Sidebar className="w-1/4 bg-white shadow-lg"></Sidebar>
-      {/* Chat history and input */}
-      <div className="flex flex-col w-3/4 p-6">
-        <div className="flex-1 overscroll-y-auto mb-4 space-y-4">
-          {chatHistory.map((chat, index) => {
-            return (
+      <div
+        style={{ width: `${sidebarWidth}px` }}
+        className="bg-[#251952] text-white shadow-lg flex-shrink-0"
+      >
+        <Sidebar />
+      </div>
+
+      {/* Draggable Partition */}
+      <div
+        className="w-2 bg-[#251952] hover:bg-gray-400 cursor-ew-resize"
+        onMouseDown={handleMouseDown}
+      ></div>
+
+      {/* Chat Panel */}
+      <div className="flex flex-col flex-grow bg-white/10 backdrop-blur-md ">
+        <div className="flex-1 p-4 overflow-y-auto shadow-inner ">
+          {/* Chat Messages Placeholder */}
+          <div className="text-gray-500 text-center">
+            {chatHistory.map((chat, index) => (
               <div
                 key={index}
                 className={`flex ${
@@ -52,26 +92,32 @@ function Chat() {
                 }`}
               >
                 <div
-                  className={`p-2 mb-2 rounded ${
+                  className={`p-4 mb-2 max-w-xs rounded-lg text-sm ${
                     chat.type === "user"
-                      ? "bg-blue-100 ml-auto"
-                      : "bg-gray-100 mr-auto"
+                      ? "bg-blue-400/70 backdrop-blur-lg text-white"
+                      : "bg-gray-200/70 backdrop-blur-lg text-gray-800"
                   }`}
                 >
                   {chat.text}
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-        <Ask
-          handleSubmit={handleSubmit}
-          messages={messages}
-          setMessages={setMessages}
-        ></Ask>
+        {/* Ask Section */}
+        <div className="p-4 shadow-lg  bg-white/20 backdrop-blur-md ">
+          <Ask
+            handleSubmit={handleSubmit}
+            messages={messages}
+            setMessages={setMessages}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 export default Chat;
+
+
+
