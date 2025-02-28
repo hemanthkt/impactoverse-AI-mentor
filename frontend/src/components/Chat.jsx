@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Ask from "./Ask";
+import { v4 as uuidv4 } from "uuid";
 
 function Chat() {
   const [messages, setMessages] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const [chatId, setChatId] = useState(null); // Track current chat session
+
+  useEffect(() => {
+    if (chatId) {
+      fetch(`http://localhost:5000/chats/${chatId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // Transform the data format to match your UI expectations
+          const formattedHistory = data.map((msg) => ({
+            type: msg.type, // 'user' or 'ai'
+            text: msg.content,
+          }));
+          setChatHistory(formattedHistory);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [chatId]);
+
+  const startNewChat = () => {
+    const newChatId = uuidv4();
+    setChatId(newChatId); // Clear current chat
+    setChatHistory([]); // Clear previous chat history
+  };
 
   const handleSubmit = async (e) => {
     console.log(messages);
@@ -19,7 +43,10 @@ function Chat() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: { role: "user", content: messages } }),
+        body: JSON.stringify({
+          chat_id: chatId,
+          message: { role: "user", content: messages },
+        }),
       });
 
       const data = await response.json();
@@ -39,7 +66,12 @@ function Chat() {
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
-      <Sidebar className="w-1/4 bg-white shadow-lg"></Sidebar>
+      <Sidebar
+        className="w-1/4 bg-white shadow-lg"
+        chatId={chatId}
+        setChatId={setChatId}
+        startNewChat={startNewChat}
+      ></Sidebar>
       {/* Chat history and input */}
       <div className="flex flex-col w-3/4 p-6">
         <div className="flex-1 overscroll-y-auto mb-4 space-y-4">

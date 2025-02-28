@@ -1,11 +1,21 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const mongoose = require("mongoose");
 require("dotenv").config();
+const Message = require("./models/Chat");
+
+const { v4: uuidv4 } = require("uuid"); // Import UUID for unique chat_id
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.log(err));
 
 let conversationHistory = [];
 
@@ -16,7 +26,49 @@ app.get("/", (req, res) => {
 app.post("/chat", async (req, res) => {
   console.log(req.body.message);
 
+  // In server.js, enhance the /chats route to provide more information:
+  app.get("/chats", async (req, res) => {
+    try {
+      const chatIds = await Message.distinct("chat_id");
+
+      // For each chat ID, get the first message to use as a title
+      const chatList = await Promise.all(
+        chatIds.map(async (chat_id) => {
+          const firstMessage = await Message.findOne({ chat_id, type: "user" })
+            .sort({ createdAt: 1 })
+            .limit(1);
+
+          const title = firstMessage
+            ? firstMessage.content.substring(0, 30) +
+              (firstMessage.content.length > 30 ? "..." : "")
+            : `Chat ${chat_id.slice(-4)}`;
+
+          return {
+            chat_id,
+            title,
+            timestamp: firstMessage ? firstMessage.createdAt : new Date(),
+          };
+        })
+      );
+
+      // Sort by most recent first
+      chatList.sort((a, b) => b.timestamp - a.timestamp);
+
+      res.json(chatList);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Failed to fetch chat IDs" });
+    }
+  });
+
   try {
+    // let { chat_id, message } = req.body;
+
+    // // If chat_id is not provided, create a new one
+    // if (!chat_id) {
+    //   chat_id = uuidv4();
+    // }
+
     const response = await axios.post(
       "https://api.deepseek.com/v1/chat/completions",
       {
@@ -38,10 +90,51 @@ app.post("/chat", async (req, res) => {
       content: aiResponse,
     });
 
-    res.json({ text: aiResponse });
+    // Save user message to MongoDB
+    const userMessage = new Message({
+      chat_id,
+      type: "user",
+      content: req.body.message.content,
+    });
+    await userMessage.save();
+
+    // Save AI response to MongoDB
+    const aiMessage = new Message({
+      chat_id,
+      type: "ai",
+      content: aiResponse,
+    });
+    await aiMessage.save();
+
+    res.json({ text: aiResponse, chat_id });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "AI processing failed" });
+  }
+});
+
+// This route will return the chat history for a given chat_id.
+app.get("/chats/:chat_id", async (req, res) => {
+  try {
+    const { chat_id } = req.params;
+    const chatHistory = await Message.find({ chat_id }).sort("createdAt");
+
+    res.json(chatHistory);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to fetch chat history" });
+  }
+});
+
+// This route will return all chat IDs.
+app.get("/chats", async (req, res) => {
+  try {
+    const chatIds = await Message.distinct("chat_id");
+
+    res.json(chatIds.map((chat_id) => ({ chat_id })));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to fetch chat IDs" });
   }
 });
 
