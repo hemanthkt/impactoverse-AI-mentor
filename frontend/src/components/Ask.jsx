@@ -13,9 +13,13 @@ function Ask({ handleSubmit, messages, setMessages }) {
         />
         <button
           type="submit"
-          className="px-4 text-white rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition duration-300 drop-shadow-md"
+          className="px-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition duration-300 drop-shadow-md flex items-center justify-center"
         >
-          Send
+          <img 
+            src="/file.png" 
+            alt="Send" 
+            className="w-5 h-5"
+          />
         </button>
       </form>
     </div>
