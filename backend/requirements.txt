@@ -2,3 +2,7 @@ express
 cors
 axios
 dotenv
+docling
+faiss
+sentence-transformers
+multer
