@@ -35,19 +35,27 @@ function Chat() {
   const handleSubmit = async (e, document_id) => {
     e.preventDefault();
 
-    if (!messages.trim()) return;
+    //if there si no document_id, then it is a normal chat
+    if (!document_id) {
+      try {
+        const response = await axios.post("http://localhost:5000/chat", {
+          chat_id: chatId,
+          message: { role: "user", content: messages },
+        });
 
-    // try {
-    //   // fetch context from FastAPI
-    //   const contextResponse = await axios.post(
-    //     "http://127.0.0.1:8000/context",
-    //     {
-    //       question: messages,
-    //       document_id: document_id
-    //     }
-    //   );
-    // } catch (error) {}
+        const { text } = response.data;
 
+        setChatHistory([
+          ...chatHistory,
+          { type: "user", text: messages },
+          { type: "ai", text },
+        ]);
+
+        setMessages("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    } else if (!messages.trim()) return;
     try {
       const contextResponse = await axios.post(
         "http://127.0.0.1:8000/context",
@@ -60,7 +68,7 @@ function Chat() {
       const context = contextResponse.data.context;
 
       // cmbain context with messages
-      const userMessageContext = `Based on this document: ${context}\n Provide a concise and well-structured answer as a tutor explaining key points to a student.Summarize only the essential details in a clear and precise manner.\n Question: ${messages} Answer:`;
+      const userMessageContext = `Based on this document: ${context}\n Provide a concise and well-structured answer as a tutor explaining key points to a student.\n Question: ${messages}`;
       const response = await axios.post("http://localhost:5000/chat", {
         chat_id: chatId,
         message: { role: "user", content: userMessageContext },
