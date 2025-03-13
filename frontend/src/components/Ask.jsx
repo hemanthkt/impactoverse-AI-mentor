@@ -73,7 +73,7 @@ function Ask({ handleSubmit, messages, setMessages }) {
         </label>
         <input
           type="text"
-          className="w-full max-w-3xl p-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+          // className="w-full max-w-3xl p-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
           value={messages}
           onChange={(e) => setMessages(e.target.value)}
           placeholder="Ask anything..."
