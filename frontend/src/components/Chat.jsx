@@ -4,6 +4,7 @@ import Ask from "./Ask";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { Copy, Volume2 } from "lucide-react";
+import Sidebar2 from "./Sidebar2";
 
 function Chat() {
   const [messages, setMessages] = useState("");
@@ -108,7 +109,7 @@ function Chat() {
   return (
     <div className="flex h-screen w-full bg-transparent">
       {/* Sidebar */}
-      <div
+      {/* <div
         style={{ width: "300px" }}
         className="bg-[#251952] text-white shadow-lg flex-shrink-0"
       >
@@ -117,7 +118,13 @@ function Chat() {
           setChatId={setChatId}
           startNewChat={startNewChat}
         />
-      </div>
+      </div> */}
+
+      <Sidebar2
+        chatId={chatId}
+        setChatId={setChatId}
+        startNewChat={startNewChat}
+      />
 
       {/* Draggable Partition */}
       <div className="w-2 bg-[#251952] hover:bg-gray-400 cursor-ew-resize"></div>
@@ -173,7 +180,7 @@ function Chat() {
         </div>
 
         {/* Ask Section */}
-        <div className="p-4 shadow-lg bg-white/20 backdrop-blur-md">
+        <div className="p-4">
           <Ask
             handleSubmit={handleSubmit}
             messages={messages}

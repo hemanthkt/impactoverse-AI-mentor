@@ -56,7 +56,7 @@ function Ask({ handleSubmit, messages, setMessages }) {
   };
 
   return (
-    <div>
+    <div className="z-10  flex space-y-6 flex-col bg-gradient-to-tr  from-slate-300/30 via-gray-400/30 to-slate-600-400/30 p-4  backdrop-blur-md rounded-xl border-slate-100/30 border">
       <form onSubmit={handleSubmitWithDocumentId} className="flex gap-2">
         <label
           htmlFor="file-upload"
@@ -73,7 +73,7 @@ function Ask({ handleSubmit, messages, setMessages }) {
         </label>
         <input
           type="text"
-          className="flex-1 p-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full max-w-3xl p-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
           value={messages}
           onChange={(e) => setMessages(e.target.value)}
           placeholder="Ask anything..."
