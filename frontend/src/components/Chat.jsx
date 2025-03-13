@@ -37,47 +37,56 @@ function Chat() {
     e.preventDefault();
 
     if (!messages.trim()) return;
+    if (!document_id) {
+      try {
+        const response = await axios.post("http://localhost:5000/chat", {
+          chat_id: chatId,
+          message: { role: "user", content: messages },
+        });
 
-    // try {
-    //   // fetch context from FastAPI
-    //   const contextResponse = await axios.post(
-    //     "http://127.0.0.1:8000/context",
-    //     {
-    //       question: messages,
-    //       document_id: document_id
-    //     }
-    //   );
-    // } catch (error) {}
+        const { text } = response.data;
 
-    try {
-      const contextResponse = await axios.post(
-        "http://127.0.0.1:8000/context",
-        {
-          question: messages,
-          document_id: document_id,
-        }
-      );
+        setChatHistory([
+          ...chatHistory,
+          { type: "user", text: messages },
+          { type: "ai", text },
+        ]);
 
-      const context = contextResponse.data.context;
+        setMessages("");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const contextResponse = await axios.post(
+          "http://127.0.0.1:8000/context",
+          {
+            question: messages,
+            document_id: document_id,
+          }
+        );
 
-      // cmbain context with messages
-      const userMessageContext = `Based on this document: ${context}\n Provide a concise and well-structured answer as a tutor explaining key points to a student.Summarize only the essential details in a clear and precise manner.\n Question: ${messages} Answer:`;
-      const response = await axios.post("http://localhost:5000/chat", {
-        chat_id: chatId,
-        message: { role: "user", content: userMessageContext },
-      });
+        const context = contextResponse.data.context;
 
-      const { text } = response.data;
+        // cmbain context with messages
+        const userMessageContext = `Based on this document: ${context}\n Provide a concise and well-structured answer as a tutor explaining key points to a student.Summarize only the essential details in a clear and precise manner.\n Question: ${messages} Answer:`;
+        const response = await axios.post("http://localhost:5000/chat", {
+          chat_id: chatId,
+          message: { role: "user", content: userMessageContext },
+        });
 
-      setChatHistory([
-        ...chatHistory,
-        { type: "user", text: messages },
-        { type: "ai", text },
-      ]);
+        const { text } = response.data;
 
-      setMessages("");
-    } catch (error) {
-      console.error("Error sending message:", error);
+        setChatHistory([
+          ...chatHistory,
+          { type: "user", text: messages },
+          { type: "ai", text },
+        ]);
+
+        setMessages("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
@@ -180,7 +189,7 @@ function Chat() {
         </div>
 
         {/* Ask Section */}
-        <div className="p-4">
+        <div className="p-4 flex justify-center">
           <Ask
             handleSubmit={handleSubmit}
             messages={messages}
