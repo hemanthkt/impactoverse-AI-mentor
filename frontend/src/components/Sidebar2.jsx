@@ -1,53 +1,102 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
-import { useContext, createContext, useState } from "react";
+import { Button } from "@material-tailwind/react";
+import axios from "axios";
+import {
+  MoreVertical,
+  ChevronLast,
+  ChevronFirst,
+  ClipboardPen,
+} from "lucide-react";
+import { useContext, createContext, useState, useEffect } from "react";
 
 const SidebarContext = createContext();
 
-export default function Sidebar2({ children }) {
+export default function Sidebar2({ chatId, setChatId, startNewChat }) {
   const [expanded, setExpanded] = useState(true);
+  const [chatList, setChatList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/chats")
+      .then((response) => {
+        setChatList(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, [chatId]);
 
   return (
-    <aside className="h-screen">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src="https://img.logoipsum.com/243.svg"
-            className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
-            }`}
-            alt=""
-          />
-          <button
-            onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
-          >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
-          </button>
+    <aside
+      className={`h-screen transition-all duration-300 ${
+        expanded ? "w-[260px]" : "w-[60px]"
+      }`}
+    >
+      <nav
+        className={`h-full flex flex-col bg-[#09032e] border-r shadow-sm transition-all duration-300 ${
+          expanded ? "w-[260px]" : "w-[60px]"
+        }`}
+      >
+        <div className="p-4 pb-2 flex justify-between items-center ">
+          <div className="flex flex-row items-center gap-2">
+            <img
+              src="https://www.impactoverse.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcolored_white.279e09d9.png&w=384&q=75"
+              className={`overflow-hidden transition-all ${
+                expanded ? "w-32" : "w-0"
+              }`}
+              alt=""
+            />
+
+            <button
+              onClick={startNewChat}
+              className={`text-white rounded mb-4 mt-3 px-3 hover:bg-[#2b245d] ${
+                expanded ? "visible" : "hidden"
+              }`}
+            >
+              <ClipboardPen />
+            </button>
+
+            <button
+              onClick={() => setExpanded((curr) => !curr)}
+              className="p-1 rounded-lg   px-1 text-white hover:bg-[#2b245d] "
+            >
+              {expanded ? <ChevronFirst /> : <ChevronLast />}
+            </button>
+          </div>
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
-        </SidebarContext.Provider>
-
-        <div className="border-t flex p-3">
-          <img
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-            alt=""
-            className="w-10 h-10 rounded-md"
-          />
           <div
-            className={`
-              flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-          `}
+            className="overflow-y-auto"
+            style={{ scrollbarColor: "gray transparent" }}
           >
-            <div className="leading-4">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-600">johndoe@gmail.com</span>
-            </div>
-            <MoreVertical size={20} />
+            <nav className="space-y-2">
+              {/* Dynamic chat list */}
+
+              {chatList.length > 0 && (
+                <ul>
+                  {chatList.map((chat) => (
+                    <div
+                      className={` transition-all duration-300 ${
+                        expanded ? "visible" : "hidden"
+                      }`}
+                    >
+                      <li
+                        key={chat.chat_id}
+                        onClick={() => setChatId(chat.chat_id)}
+                        className={` flex justify-start p-3 mx-3   cursor-pointer text-sm text-white rounded ${
+                          chatId === chat.chat_id
+                            ? "bg-blue-500"
+                            : "hover:bg-[#2b245d]"
+                        }`}
+                      >
+                        Chat {chat.chat_id.slice(-4)}{" "}
+                        {/* Show last 4 chars of chat_id */}
+                      </li>
+                    </div>
+                  ))}
+                </ul>
+              )}
+            </nav>
           </div>
-        </div>
+        </SidebarContext.Provider>
       </nav>
     </aside>
   );
