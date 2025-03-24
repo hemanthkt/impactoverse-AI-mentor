@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { Copy, Volume2 } from "lucide-react";
 import Sidebar2 from "./Sidebar2";
+import Nav from "./Nav";
 
 function Chat() {
   const [messages, setMessages] = useState("");
@@ -116,85 +117,83 @@ function Chat() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-transparent">
-      {/* Sidebar */}
-      {/* <div
-        style={{ width: "300px" }}
-        className="bg-[#251952] text-white shadow-lg flex-shrink-0"
-      >
-        <Sidebar
+    <div className="flex flex-col h-screen w-full  relative  bg-[#09032e] overflow-hidden ">
+      <div className="flex  flex-1 overflow-hidden">
+        {/* h-screen w-full bg-transparent */}
+
+        {/* Sidebar */}
+        <Sidebar2
           chatId={chatId}
           setChatId={setChatId}
           startNewChat={startNewChat}
         />
-      </div> */}
 
-      <Sidebar2
-        chatId={chatId}
-        setChatId={setChatId}
-        startNewChat={startNewChat}
-      />
-
-      {/* Draggable Partition */}
-      <div className="w-2 bg-[#251952] hover:bg-gray-400 cursor-ew-resize"></div>
-
-      {/* Chat Panel */}
-      <div className="flex flex-col flex-grow bg-white/10 backdrop-blur-md">
-        <div className="flex-1 p-4 overflow-y-auto shadow-inner">
-          {/* Chat Messages Placeholder */}
-          <div className="text-gray-500 text-center">
-            {chatHistory.map((chat, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  chat.type === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`relative p-4 mb-2 ${
-                    chat.type === "user"
-                      ? "bg-blue-400/70 backdrop-blur-lg text-white max-w-xs"
-                      : "bg-gray-200/70 backdrop-blur-lg text-gray-800 max-w-md"
-                  } rounded-lg text-sm`}
-                >
-                  {chat.type === "ai" ? (
-                    <div
-                      dangerouslySetInnerHTML={renderFormattedText(chat.text)}
-                    />
-                  ) : (
-                    chat.text
-                  )}
-                  {chat.type === "ai" && (
-                    <div className="absolute top-1 right-2 flex space-x-2">
-                      <button
-                        onClick={() => handleCopy(chat.text)}
-                        className="text-gray-600 hover:text-gray-800"
-                        title="Copy"
-                      >
-                        <Copy size={16} />
-                      </button>
-                      <button
-                        onClick={() => handlePlay(chat.text)}
-                        className="text-gray-600 hover:text-gray-800"
-                        title="Play Audio"
-                      >
-                        <Volume2 size={16} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Navbar */}
+        <div className="z-50">
+          <Nav />
         </div>
 
-        {/* Ask Section */}
-        <div className="p-4 flex justify-center">
-          <Ask
-            handleSubmit={handleSubmit}
-            messages={messages}
-            setMessages={setMessages}
-          />
+        {/* Draggable Partition */}
+        <div className="w-2 bg-[#251952] hover:bg-gray-400 cursor-ew-resize z-40"></div>
+
+        {/* Chat Panel */}
+        <div className="flex flex-col flex-grow bg-white/10 backdrop-blur-md z-30">
+          <div className="flex-1 p-4 overflow-y-auto shadow-inner">
+            {/* Chat Messages Placeholder */}
+            <div className="text-gray-500 text-center">
+              {chatHistory.map((chat, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    chat.type === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`relative p-4 mb-2 ${
+                      chat.type === "user"
+                        ? "bg-blue-400/70 backdrop-blur-lg text-white max-w-xs"
+                        : "bg-gray-200/70 backdrop-blur-lg text-gray-800 max-w-md"
+                    } rounded-lg text-sm`}
+                  >
+                    {chat.type === "ai" ? (
+                      <div
+                        dangerouslySetInnerHTML={renderFormattedText(chat.text)}
+                      />
+                    ) : (
+                      chat.text
+                    )}
+                    {chat.type === "ai" && (
+                      <div className="absolute top-1 right-2 flex space-x-2">
+                        <button
+                          onClick={() => handleCopy(chat.text)}
+                          className="text-gray-600 hover:text-gray-800"
+                          title="Copy"
+                        >
+                          <Copy size={16} />
+                        </button>
+                        <button
+                          onClick={() => handlePlay(chat.text)}
+                          className="text-gray-600 hover:text-gray-800"
+                          title="Play Audio"
+                        >
+                          <Volume2 size={16} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Ask Section */}
+          <div className="p-4 flex justify-center">
+            <Ask
+              handleSubmit={handleSubmit}
+              messages={messages}
+              setMessages={setMessages}
+            />
+          </div>
         </div>
       </div>
     </div>

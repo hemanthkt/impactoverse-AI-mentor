@@ -74,6 +74,7 @@ export default function Sidebar2({ chatId, setChatId, startNewChat }) {
                 <ul>
                   {chatList.map((chat) => (
                     <div
+                      key={chat.chat_id}
                       className={` transition-all duration-300 ${
                         expanded ? "visible" : "hidden"
                       }`}
