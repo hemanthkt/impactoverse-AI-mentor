@@ -29,20 +29,6 @@ function Nav() {
             </button>
           </div>
         </div>
-        <div className="navBtn flex justify-between">
-          <div className="navBtn-inner">
-            <button className="text-white" onClick={handleSignOut}>
-              Log out
-            </button>
-          </div>
-        </div>
-        <div className="navBtn flex justify-between">
-          <div className="navBtn-inner">
-            <button className="text-white" onClick={userId}>
-              userId
-            </button>
-          </div>
-        </div>
       </div>
       {showCard && (
         <div className="scale-90">

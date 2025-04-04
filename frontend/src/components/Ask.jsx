@@ -57,37 +57,6 @@ function Ask({ handleSubmit, messages, setMessages }) {
   };
 
   return (
-    // <div className="z-10  flex space-y-6 flex-col bg-gradient-to-tr  from-slate-300/30 via-gray-400/30 to-slate-600-400/30 p-4  backdrop-blur-md rounded-xl border-slate-100/30 border">
-    //   <form onSubmit={handleSubmitWithDocumentId} className="flex gap-2">
-    //     <label
-    //       htmlFor="file-upload"
-    //       className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition duration-300 drop-shadow-md flex items-center justify-center cursor-pointer"
-    //     >
-    //       <span className="text-white">Upload PDF</span>
-    //       <input
-    //         id="file-upload"
-    //         type="file"
-    //         accept=".pdf"
-    //         className="hidden"
-    //         onChange={handleFileUpload}
-    //       />
-    //     </label>
-    //     <input
-    //       type="text"
-    //       // className="w-full max-w-3xl p-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
-    //       value={messages}
-    //       onChange={(e) => setMessages(e.target.value)}
-    //       placeholder="Ask anything..."
-    //     />
-    //     <button
-    //       type="submit"
-    //       className="px-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition duration-300 drop-shadow-md flex items-center justify-center"
-    //     >
-    //       <img src="/file.png" alt="Send" className="w-5 h-5" />
-    //     </button>
-    //   </form>
-    // </div>
-
     <div className="flex w-2/4 z-10 flex-col space-y-4 bg-[#17142B] p-4 backdrop-blur-md rounded-xl border border-slate-100/30 shadow-md">
       <form
         onSubmit={handleSubmitWithDocumentId}
