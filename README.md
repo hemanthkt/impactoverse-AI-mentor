@@ -60,7 +60,7 @@ MONGO_URI=your_mongodb_connection_string
     *This will start the backend server on http://localhost:8000*
 
 
- ###🗃️ Node.js + MongoDB Backend
+ ### 🗃️ Node.js + MongoDB Backend
 
 1. **Navigate to the server directory:**
     
