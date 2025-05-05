@@ -14,18 +14,18 @@ MONGO_URI=your_mongodb_connection_string
 ## 🚀 Tech Stack
 
 **Frontend:**
-- ⚛️ React
+-  React
 
 **Backend:**
-- 🧠 Node.js (API & MongoDB)
-- ⚡ FastAPI (Open-source models)
-- 🧾 Docling, FAISS, SentenceTransformers
+-  Node.js (API & MongoDB)
+-  FastAPI (Open-source models)
+-  Docling, FAISS, SentenceTransformers
 
 **AI & NLP:**
-- 🔍 DeepSeek API
-- 📄 Sentence Transformers
-- 🧠 FAISS (Facebook AI Similarity Search)
-- 📘 Docling for parsing PDFs
+-  DeepSeek API
+-  Sentence Transformers
+-  FAISS (Facebook AI Similarity Search)
+-  Docling for parsing PDFs
 
 ---
 
@@ -86,14 +86,14 @@ MONGO_URI=your_mongodb_connection_string
    npm run dev
 
 ## 🌟 Features
--🧠 AI Mentor using DeepSeek API
+- AI Mentor using DeepSeek API
 
--📄 Intelligent PDF parsing with Docling
+- Intelligent PDF parsing with Docling
 
--📚 Vector embeddings via Sentence Transformers
+- Vector embeddings via Sentence Transformers
 
--🔍 Semantic search using FAISS
+- Semantic search using FAISS
 
--📦 MongoDB integration for chat and user history
+- MongoDB integration for chat and user history
 
--🎯 Modular backend architecture (FastAPI + Node.js)
+- Modular backend architecture (FastAPI + Node.js)
